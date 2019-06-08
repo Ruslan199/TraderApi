@@ -12,9 +12,7 @@ namespace BusinessLogic
         public static void AddBuisnessServices(this IServiceCollection container)
         {
             container.AddScoped<IQuotationFiveService, QuotationFiveService>();
-            // container.AddScoped<IQuotationOneService, QuotationOneService>();
-
-
+            container.AddScoped<IUserService, UserService>();
         }
     }
 }
