@@ -17,6 +17,7 @@ using NHibernate;
 using Storage;
 using TraderApi.BinanceTradeManager;
 using TraderApi.Interface;
+using TraderApi.WebSocketManager;
 
 namespace TraderApi
 {
@@ -39,8 +40,9 @@ namespace TraderApi
             services.AddSingleton<ITimerService, TimerService>();
             // services.AddScoped<BinanceTradeManager.BinanceTradeManager>();
             services.AddHostedService<TimedHostedService>();
-           // services.AddScoped<TimerRealAlgoritm>();
-           // services.AddScoped<ITimerService, TimerService>();
+            services.AddWebSocketManager();
+            // services.AddScoped<TimerRealAlgoritm>();
+            // services.AddScoped<ITimerService, TimerService>();
             //services.AddScoped<TimerService>();
             // services.AddScoped<IQuotationFiveService, QuotationFiveService>();
 
@@ -58,15 +60,16 @@ namespace TraderApi
             {
                 app.UseHsts();
             }
-
             //var binanceTM2 = serviceProvider.GetService<BinanceTradeManager.BinanceTradeManagerOne>();
             //binanceTM2.SetServices(serviceProvider.GetService<IQuotationOneService>());
-
             app.UseCors(builder =>
                builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod());
-
             //app.UseHttpsRedirecxtion();
             app.UseMvc();
+            app.UseWebSockets();
+            var notifMessageHandler = serviceProvider.GetService<NotificationsMessageHandler>();
+           // notifMessageHandler.SetCurrencyService(serviceProvider.GetService<ICoinmarketcapService>());
+            app.MapWebSocketManager("/notifications", notifMessageHandler);
         }
     }
 }

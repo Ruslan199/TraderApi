@@ -10,6 +10,9 @@ using System;
 using Binance.Net.Objects;
 using TraderApi.Interface;
 using Domain;
+using System.Net.WebSockets;
+using Microsoft.AspNetCore.Http;
+using System.Threading;
 
 namespace TraderApi.Controllers
 {
@@ -34,6 +37,8 @@ namespace TraderApi.Controllers
             };
             user.Create(users);
             return Json(new KlineResponse { Success = true, });
+        }
+                CancellationToken.None);
         }
     }
 }
