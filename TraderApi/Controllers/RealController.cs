@@ -18,17 +18,21 @@ namespace TraderApi.Controllers
     {
         private IQuotationFiveService QuotationsFive { get; set; }
         private ITimerService timer { get; set; }
+        private IUserService user { get; set; }
 
 
-        public RealController([FromServices] IQuotationFiveService quotations, ITimerService Timer)
+        public RealController([FromServices] IQuotationFiveService quotations, ITimerService Timer,IUserService _user)
         {
             QuotationsFive = quotations;
             timer = Timer;
+            user = _user;
         }
 
         [HttpPost("RealTime")]
         public async Task<IActionResult> RealTime([FromBody] DataOfRealTimeRequest request)
         {
+            var userId = user.GetAll().Where(x=>x.UserName == request.Login).SingleOrDefault().ID;
+            
             if (request.Pair == Pairs.GVTBTC)
             {
                 timer.timer[0].Stop();

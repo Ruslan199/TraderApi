@@ -7,41 +7,32 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using TraderApi.Interface;
 
 namespace TraderApi.WebSocketManager
 {
     public class NotificationsMessageHandler : WebSocketHandler
     {
         public List<SocketUser> socketUsers = new List<SocketUser>();
+    
 
         public NotificationsMessageHandler(WebSocketConnectionManager webSocketConnectionManager) : base(webSocketConnectionManager)
         {
-            var myTimer = new System.Timers.Timer();
-            myTimer.Elapsed += new ElapsedEventHandler(DisplayTimeEvent);
-            myTimer.Interval = 3000;
-            myTimer.Start();
+  
         }
-
 
         public override async Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, byte[] buffer)
         {
             var socketId = WebSocketConnectionManager.GetId(socket);
             var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-
+            
             try
             {
                 var recieveJSON = JsonConvert.DeserializeObject<SocketJSON>(message);
-                if (recieveJSON.Type.Equals("sellType"))
-                {
-                    bool isSell = false;
-                    if (recieveJSON.Message.Equals("sell"))
-                        isSell = true;
 
                     var existSocketUser = socketUsers.FirstOrDefault(x => x.ID.Equals(socketId));
                     if (existSocketUser == null)
-                        socketUsers.Add(new SocketUser { ID = socketId });
-
-                }
+                        socketUsers.Add(new SocketUser { ID = socketId });       
             }
             catch (Exception ex)
             {
@@ -49,25 +40,10 @@ namespace TraderApi.WebSocketManager
             }
         }
 
-        public void DisplayTimeEvent(object source, ElapsedEventArgs e)
+        public override Task OnConnected(WebSocket socket)
         {
-            foreach (var socket in this.WebSocketConnectionManager.GetAll())
-            {
-                if (socket.Value.State == WebSocketState.Open)
-                {
-                    var existSocketConnection = socketUsers.FirstOrDefault(x => x.ID.Equals(socket.Key));
-                    if (existSocketConnection != null)
-                        SendCurrencyForUser(socket.Value);
-                }
-            }
-        }
-
-        private async void SendCurrencyForUser(WebSocket socket)
-        {
-            var answer = JsonConvert.SerializeObject(new SocketJSON { Type = "updateCurrency", Message = JsonConvert.SerializeObject(new DateTime()) });
-            await SendMessageAsync(socket, answer);
-
-            return;
+            SendMessageToAllAsync("Hello Ruslan!");
+            return base.OnConnected(socket);
         }
     }
 

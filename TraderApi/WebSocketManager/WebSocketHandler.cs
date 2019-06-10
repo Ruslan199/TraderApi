@@ -19,7 +19,7 @@ namespace TraderApi.WebSocketManager
 
         public virtual async Task OnConnected(WebSocket socket)
         {
-            WebSocketConnectionManager.AddSocket(socket);
+            WebSocketConnectionManager.AddSocket(socket);  
         }
 
         public virtual async Task OnDisconnected(WebSocket socket)

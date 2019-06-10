@@ -9,6 +9,8 @@ using TraderApi.Interface;
 using TraderApi.Models.Request;
 using TraderApi.ViewModels.Response;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net.WebSockets;
+using TraderApi.WebSocketManager;
 
 namespace TraderApi.BinanceTradeManager
 {
@@ -265,6 +267,7 @@ namespace TraderApi.BinanceTradeManager
                                         {
                                             var date = Data[i].Date + " Сигнал Сверху " + data.Pair;
                                             response.Add(date);
+
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && Data[i].Close > Data[i + 3].Open)
                                         {
@@ -570,7 +573,8 @@ namespace TraderApi.BinanceTradeManager
                     }
                 }
             }
+            
             //return new KlineResponse { Success = true, Message = "succes" }); 
-        }
+        }   
     }
 }

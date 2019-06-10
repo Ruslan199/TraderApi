@@ -14,5 +14,6 @@ namespace TraderApi.Models.Request
         public Pairs Pair { get; set; }
         public decimal Inaccuracy { get; set; }
         public int Value { get; set; }
+        public string Login { get; set; }
     }
 }

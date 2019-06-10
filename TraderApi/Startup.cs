@@ -68,7 +68,6 @@ namespace TraderApi
             app.UseMvc();
             app.UseWebSockets();
             var notifMessageHandler = serviceProvider.GetService<NotificationsMessageHandler>();
-           // notifMessageHandler.SetCurrencyService(serviceProvider.GetService<ICoinmarketcapService>());
             app.MapWebSocketManager("/notifications", notifMessageHandler);
         }
     }

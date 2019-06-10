@@ -13,8 +13,7 @@ namespace TraderApi.WebSocketManager
         private readonly RequestDelegate _next;
         private WebSocketHandler _webSocketHandler { get; set; }
 
-        public WebSocketManagerMiddleware(RequestDelegate next,
-                                          WebSocketHandler webSocketHandler)
+        public WebSocketManagerMiddleware(RequestDelegate next, WebSocketHandler webSocketHandler)
         {
             _next = next;
             _webSocketHandler = webSocketHandler;
@@ -41,7 +40,7 @@ namespace TraderApi.WebSocketManager
                     await _webSocketHandler.OnDisconnected(socket);
                     return;
                 }
-
+   
             });
 
             //TODO - investigate the Kestrel exception thrown when this is the last middleware
@@ -56,7 +55,6 @@ namespace TraderApi.WebSocketManager
             {
                 var result = await socket.ReceiveAsync(buffer: new ArraySegment<byte>(buffer),
                                                        cancellationToken: CancellationToken.None);
-
                 handleMessage(result, buffer);
             }
         }
