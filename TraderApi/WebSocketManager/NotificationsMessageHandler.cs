@@ -40,11 +40,13 @@ namespace TraderApi.WebSocketManager
             }
         }
 
+        /*
         public override Task OnConnected(WebSocket socket)
         {
             SendMessageToAllAsync("Hello Ruslan!");
             return base.OnConnected(socket);
         }
+        */
     }
 
     public class SocketJSON

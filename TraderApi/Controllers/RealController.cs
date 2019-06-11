@@ -9,6 +9,8 @@ using System.Linq;
 using System;
 using Binance.Net.Objects;
 using TraderApi.Interface;
+using TraderApi.WebSocketManager;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TraderApi.Controllers
 {
@@ -19,19 +21,27 @@ namespace TraderApi.Controllers
         private IQuotationFiveService QuotationsFive { get; set; }
         private ITimerService timer { get; set; }
         private IUserService user { get; set; }
+        private NotificationsMessageHandler NotificationsService { get; set; }
 
 
-        public RealController([FromServices] IQuotationFiveService quotations, ITimerService Timer,IUserService _user)
+        public RealController([FromServices]
+            IQuotationFiveService quotations,
+            ITimerService Timer,
+            IUserService _user,
+            NotificationsMessageHandler notificationsService
+            )
         {
             QuotationsFive = quotations;
             timer = Timer;
             user = _user;
+            NotificationsService = notificationsService;
         }
-
+        [Authorize]
         [HttpPost("RealTime")]
         public async Task<IActionResult> RealTime([FromBody] DataOfRealTimeRequest request)
         {
             var userId = user.GetAll().Where(x=>x.UserName == request.Login).SingleOrDefault().ID;
+            //NotificationsService.SendMessageAsync(data);
             
             if (request.Pair == Pairs.GVTBTC)
             {

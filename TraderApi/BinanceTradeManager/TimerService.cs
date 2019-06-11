@@ -85,7 +85,7 @@ namespace TraderApi.BinanceTradeManager
             Console.WriteLine(data.Interval + " " + data.Pair + " " + data.Inaccuracy + " " + System.DateTime.Now);
             string Kline;
             var time = new DateTime(data.Time.Year, data.Time.Month, (data.Time.Day + 2));
-
+            WebSocketConnectionManager web = new WebSocketConnectionManager();
             using (var scope = Services.CreateScope())
             {
                 var QuotationsFive =

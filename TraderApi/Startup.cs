@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BusinessLogic;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using NHibernate;
 using Storage;
 using TraderApi.BinanceTradeManager;
@@ -41,6 +43,32 @@ namespace TraderApi
             // services.AddScoped<BinanceTradeManager.BinanceTradeManager>();
             services.AddHostedService<TimedHostedService>();
             services.AddWebSocketManager();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            // укзывает, будет ли валидироваться издатель при валидации токена
+                            ValidateIssuer = true,
+                            // строка, представляющая издателя
+                            ValidIssuer = AuthOptions.ISSUER,
+
+                            // будет ли валидироваться потребитель токена
+                            ValidateAudience = true,
+                            // установка потребителя токена
+                            ValidAudience = AuthOptions.AUDIENCE,
+                            // будет ли валидироваться время существования
+                            ValidateLifetime = true,
+
+                            // установка ключа безопасности
+                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                            // валидация ключа безопасности
+                            ValidateIssuerSigningKey = true,
+                        };
+                    });
+
             // services.AddScoped<TimerRealAlgoritm>();
             // services.AddScoped<ITimerService, TimerService>();
             //services.AddScoped<TimerService>();
@@ -65,6 +93,7 @@ namespace TraderApi
             app.UseCors(builder =>
                builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod());
             //app.UseHttpsRedirecxtion();
+            app.UseAuthentication();
             app.UseMvc();
             app.UseWebSockets();
             var notifMessageHandler = serviceProvider.GetService<NotificationsMessageHandler>();

@@ -13,6 +13,7 @@ namespace BusinessLogic
         {
             container.AddScoped<IQuotationFiveService, QuotationFiveService>();
             container.AddScoped<IUserService, UserService>();
+            container.AddScoped<IActivationKeyService, ActivationKeyService>();
         }
     }
 }
