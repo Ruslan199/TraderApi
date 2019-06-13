@@ -19,10 +19,12 @@ namespace TraderApi.BinanceTradeManager
         public List<BinancePair> timer { get; set; }
         public List<DataOfRealTimeRequest> data { get; set; }
         public IServiceProvider Services { get; }
+        private NotificationsMessageHandler NotificationsService { get; set; }
 
-        public TimerService(IServiceProvider services)
+        public TimerService(IServiceProvider services, NotificationsMessageHandler notificationsService)
         {
             Services = services;
+            NotificationsService = notificationsService;
             data = new List<DataOfRealTimeRequest>
             {
                 new DataOfRealTimeRequest(),
@@ -80,12 +82,16 @@ namespace TraderApi.BinanceTradeManager
 
         public void Count(object obj, System.Timers.ElapsedEventArgs e)
         {
-
             var data = (DataOfRealTimeRequest)obj;
+            var id = data.SocketId;
+            var mess = (data.Pair +" "+ data.Login+ " " + data.SocketId +" " + System.DateTime.Now);
+
+            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+            NotificationsService.NotifyToUser(socketId, mess);
+
             Console.WriteLine(data.Interval + " " + data.Pair + " " + data.Inaccuracy + " " + System.DateTime.Now);
             string Kline;
             var time = new DateTime(data.Time.Year, data.Time.Month, (data.Time.Day + 2));
-            WebSocketConnectionManager web = new WebSocketConnectionManager();
             using (var scope = Services.CreateScope())
             {
                 var QuotationsFive =
@@ -266,7 +272,8 @@ namespace TraderApi.BinanceTradeManager
                                         if (kline[k + 4].StartsWith("Green") && Data[i].Close > Data[i + 3].Close)
                                         {
                                             var date = Data[i].Date + " Сигнал Сверху " + data.Pair;
-                                            response.Add(date);
+                                            //var socketId = NotificationsService.GetByLogin(data.Login);
+                                            //NotificationsService.SendMessageAsync(socketId, date);
 
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && Data[i].Close > Data[i + 3].Open)

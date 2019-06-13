@@ -43,6 +43,7 @@ namespace TraderApi
             // services.AddScoped<BinanceTradeManager.BinanceTradeManager>();
             services.AddHostedService<TimedHostedService>();
             services.AddWebSocketManager();
+            
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
@@ -96,6 +97,7 @@ namespace TraderApi
             app.UseAuthentication();
             app.UseMvc();
             app.UseWebSockets();
+            
             var notifMessageHandler = serviceProvider.GetService<NotificationsMessageHandler>();
             app.MapWebSocketManager("/notifications", notifMessageHandler);
         }

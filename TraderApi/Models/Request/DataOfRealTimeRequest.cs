@@ -3,6 +3,7 @@ using Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 
 namespace TraderApi.Models.Request
@@ -14,6 +15,7 @@ namespace TraderApi.Models.Request
         public Pairs Pair { get; set; }
         public decimal Inaccuracy { get; set; }
         public int Value { get; set; }
+        public string SocketId { get; set; }
         public string Login { get; set; }
     }
 }

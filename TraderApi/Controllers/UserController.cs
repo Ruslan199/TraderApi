@@ -31,7 +31,7 @@ namespace TraderApi.Controllers
     {
         private IUserService UserService { get; set; }
         private IActivationKeyService ActivationKeyService { get; set; }
-        private NotificationsMessageHandler NotificationsMessageHandler { get; set; }
+        private NotificationsMessageHandler NotificationsMessageHandlerService { get; set; }
 
         public UserController([FromServices]
             IUserService usersService,
@@ -41,7 +41,7 @@ namespace TraderApi.Controllers
         {
             UserService = usersService;
             ActivationKeyService = activationKeyService;
-            NotificationsMessageHandler = notificationsMessageHandler;
+            NotificationsMessageHandlerService = notificationsMessageHandler;
         }
 
         [HttpPost("registration")]
@@ -50,11 +50,11 @@ namespace TraderApi.Controllers
             var now = DateTime.UtcNow;
 
             var users = UserService.GetAll().ToList();
-            if (users.FirstOrDefault(x => x.UserName == request.UserName) != null)
+            if (users.FirstOrDefault(x => x.Login == request.Login) != null)
                return Json(new KlineResponse { Success = false, Message = "This address already registered!" });
 
             var user = new User() {
-                UserName = request.UserName,
+                Login = request.Login,
                 Mail = request.Mail,
                 Password = request.Password
             };
@@ -68,7 +68,7 @@ namespace TraderApi.Controllers
         {
             //try
            // {
-                var user = UserService.GetAll().Where(x => x.Password == request.Password && x.UserName == request.Login).SingleOrDefault().ID;
+                var user = UserService.GetAll().Where(x => x.Password == request.Password && x.Login == request.Login).SingleOrDefault().ID;
 
                 var identity = GetIdentity(request.Login, request.Password);
 
@@ -85,24 +85,10 @@ namespace TraderApi.Controllers
                         signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                 var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-           // var l = NotificationsMessageHandler.ReceiveAsync();
-            WebSocketConnectionManager nn = new WebSocketConnectionManager();
+            var l = NotificationsMessageHandlerService;
 
-            int d = 0;
 
-            NotificationsMessageHandler.socketUsers.Add(new SocketUser {ID = d++.ToString() });
-
-            var l = NotificationsMessageHandler.socketUsers.Count;
-           // nn.AddSocket(web);
-
-            return Json(new AuthResponse { Success = true, Message = l.ToString() });
-            //}
-            /*
-            catch
-            {
-                return Json(new KlineResponse { Success = false, Message = "Такого пользователя не существует" });
-            }
-            */
+            return Json(new AuthResponse { Success = true, Message = encodedJwt });
         }
 
         public static string CreateMD5(string input)
@@ -125,14 +111,14 @@ namespace TraderApi.Controllers
 
         private ClaimsIdentity GetIdentity(string login, string password)
         {
-            var user = UserService.GetAll().FirstOrDefault(x => x.UserName == login && x.Password == password);
+            var user = UserService.GetAll().FirstOrDefault(x => x.Login == login && x.Password == password);
 
             if (user == null)
                 return null;
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login),
             };
 
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(

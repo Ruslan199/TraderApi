@@ -12,7 +12,7 @@ namespace Storage.Mappings
         {
             Table("users");
             Id(u => u.ID, "id");
-            Map(u => u.UserName, "user_name");
+            Map(u => u.Login, "user_name");
             Map(u => u.Mail, "mail");
             Map(u => u.Password, "password");
             Map(u => u.Deleted, "deleted").Not.Nullable();
