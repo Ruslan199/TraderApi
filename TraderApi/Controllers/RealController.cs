@@ -52,46 +52,49 @@ namespace TraderApi.Controllers
             {
                 NotificationsService.addSocketUser(user.Login, request.SocketId);
             }
-             
+
+            //var socketID = WebSocketConnectionManager.GetId(socket);  
+            //SendMessageAsync(socketID, socketID);
+
             if (request.Pair == Pairs.GVTBTC)
             {
                 timer.timer[0].Stop();
-                timer.timer[0].Interval = 10000 * request.Value;
+                timer.timer[0].Interval = 60000 * request.Value;
                 timer.data[0] = request;
                 timer.timer[0].Start();
             }
             else if (request.Pair == Pairs.IOTXBTC)
             {
                 timer.timer[1].Stop();
-                timer.timer[1].Interval = 10000 * request.Value;
+                timer.timer[1].Interval = 60000 * request.Value;
                 timer.data[1] = request;
                 timer.timer[1].Start();
             }
             else if (request.Pair == Pairs.STRATBTC)
             {
                 timer.timer[2].Stop();
-                timer.timer[2].Interval = 10000 * request.Value;
+                timer.timer[2].Interval = 60000 * request.Value;
                 timer.data[2] = request;
                 timer.timer[2].Start();
             }
             else if (request.Pair == Pairs.XRPBTC)
             {
                 timer.timer[3].Stop();
-                timer.timer[3].Interval = 10000 * request.Value;
+                timer.timer[3].Interval = 60000 * request.Value;
                 timer.data[3] = request;
                 timer.timer[3].Start();
             }
             else if (request.Pair == Pairs.WAVESBTC)
             {
                 timer.timer[4].Stop();
-                timer.timer[4].Interval = 10000 * request.Value;
+                timer.timer[4].Interval = 60000 * request.Value;
                 timer.data[4] = request;
                 timer.timer[4].Start();
             }
             else if (request.Pair == Pairs.CMTBTC)
             {
                 timer.timer[5].Stop();
-                timer.timer[5].Interval = 10000 * request.Value;
+                timer.timer[5].Interval = 60000 * request.Value;
                 timer.data[5] = request;
                 timer.timer[5].Start();
             }

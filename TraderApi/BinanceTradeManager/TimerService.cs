@@ -84,7 +84,8 @@ namespace TraderApi.BinanceTradeManager
         {
             var data = (DataOfRealTimeRequest)obj;
             var id = data.SocketId;
-            var mess = (data.Pair +" "+ data.Login+ " " + data.SocketId +" " + System.DateTime.Now);
+            string gg = "Signal Up";
+            var mess = (DateTime.Now + " " + gg + " " + data.Pair).ToString();
 
             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
             NotificationsService.NotifyToUser(socketId, mess);

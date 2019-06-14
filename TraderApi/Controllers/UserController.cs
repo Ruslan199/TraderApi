@@ -7,13 +7,7 @@ using TraderApi.ViewModels.Response;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using Binance.Net.Objects;
-using TraderApi.Interface;
 using Domain;
-using System.Net.WebSockets;
-using Microsoft.AspNetCore.Http;
-using System.Threading;
-using TraderApi.WebSocketManager;
 using System.Security.Cryptography;
 using System.Text;
 using System.Security.Claims;
@@ -21,7 +15,8 @@ using System.IdentityModel.Tokens.Jwt;
 using BusinessLogic;
 using Microsoft.IdentityModel.Tokens;
 using TraderApi.Models.Response;
-using System.Net.Sockets;
+using TraderApi.WebSocketManager;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TraderApi.Controllers
 {
@@ -30,18 +25,13 @@ namespace TraderApi.Controllers
     public class UserController : Controller
     {
         private IUserService UserService { get; set; }
-        private IActivationKeyService ActivationKeyService { get; set; }
-        private NotificationsMessageHandler NotificationsMessageHandlerService { get; set; }
+        private NotificationsMessageHandler NotificationsService { get; set; }
 
-        public UserController([FromServices]
-            IUserService usersService,
-            IActivationKeyService activationKeyService,
-            NotificationsMessageHandler notificationsMessageHandler
-            )
+        public UserController([FromServices] IUserService usersService
+            ,NotificationsMessageHandler notificationsService)
         {
             UserService = usersService;
-            ActivationKeyService = activationKeyService;
-            NotificationsMessageHandlerService = notificationsMessageHandler;
+            NotificationsService = notificationsService;
         }
 
         [HttpPost("registration")]
@@ -61,34 +51,45 @@ namespace TraderApi.Controllers
             UserService.Create(user);
             
 
-            return Json(new KlineResponse { Success = true, });
+            return Json(new KlineResponse { Success = true, Message = "Вы успешно зарегестрировались"});
         }
+        [Authorize]
+        [HttpPost("exit")]
+        public async Task<IActionResult> Exit([FromBody] DataOfRealTimeRequest request)
+        {
+            var user = UserService.GetAll().FirstOrDefault(x => x.Login == User.Identity.Name);
+            var socketId = NotificationsService.userID.GetValueOrDefault(request.Login);
+
+            NotificationsService.RemoveSocketUser(user.Login, socketId);
+
+            return Json(new KlineResponse { Success = true });
+        }
+
         [HttpPost("authorization")]
         public async Task<IActionResult> Authorization([FromBody] AuthRequest request)
         {
-            //try
-           // {
-                var user = UserService.GetAll().Where(x => x.Password == request.Password && x.Login == request.Login).SingleOrDefault().ID;
+            var user = UserService.GetAll().Where(x => x.Password == request.Password && x.Login == request.Login).SingleOrDefault();
+            if (user == null)
+            {
+                return Json(new KlineResponse { Success = false, Message = "Unknow Login or Password" });
+            }
 
-                var identity = GetIdentity(request.Login, request.Password);
+            var identity = GetIdentity(request.Login, request.Password);
 
-                var now = DateTime.UtcNow;
-                var expires = now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME));
+            var now = DateTime.UtcNow;
+            var expires = now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME));
 
-                var jwt = new JwtSecurityToken(
-                        issuer: AuthOptions.ISSUER,
-                        audience: AuthOptions.AUDIENCE,
-                        notBefore: now,
-                        claims: identity.Claims,
-                        expires: expires,
+            var jwt = new JwtSecurityToken(
+                    issuer: AuthOptions.ISSUER,
+                    audience: AuthOptions.AUDIENCE,
+                    notBefore: now,
+                    claims: identity.Claims,
+                    expires: expires,
 
-                        signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-                var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+                    signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-            var l = NotificationsMessageHandlerService;
-
-
-            return Json(new AuthResponse { Success = true, Message = encodedJwt });
+            return Json(new AuthResponse { Success = true, Message = encodedJwt, Login = request.Login });
         }
 
         public static string CreateMD5(string input)

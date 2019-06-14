@@ -7,10 +7,7 @@ namespace TraderApi.Models.Response
 {
     public class AuthResponse : ResponseModel
     {
-        public TokenViewModel Token { get; set; }
+        public string Login { get; set; }
 
-        public bool Blocked { get; set; }
-
-        public DateTime BlockTime { get; set; }
     }
 }

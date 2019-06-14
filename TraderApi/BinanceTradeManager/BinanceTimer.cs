@@ -1,4 +1,5 @@
 ﻿using Binance.Net.Objects;
+using Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,16 @@ namespace TraderApi.BinanceTradeManager
 {
     public class BinanceTimer : Timer
     {
-        private KlineInterval _klineInterval { get; set; }
+        private KlineInterval _kline { get; set; }
 
         public KlineInterval BinanceInterval
         {
-            get => _klineInterval;
+            get => _kline;
         }
 
-        public BinanceTimer(KlineInterval interval)
+        public BinanceTimer(KlineInterval kline)
         {
-            _klineInterval = interval;
+            _kline = kline;
         }
     }
 }

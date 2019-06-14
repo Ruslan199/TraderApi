@@ -28,6 +28,10 @@ namespace TraderApi.WebSocketManager
             var socketID = WebSocketConnectionManager.GetSocketById(socketId);
             userID.Add(user, socketId);
         }
+        public void RemoveSocketUser(string user, string sockterId)
+        {
+            userID.Remove(user,out sockterId);
+        }
 
         public void NotifyToUser(string user, string message)
         {

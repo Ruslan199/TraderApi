@@ -79,10 +79,7 @@ namespace TraderApi.Controllers
             var DataRed = QuotationsFive.GetAll().Where(x => x.Pair == request.Pair && x.Interval == request.Interval && x.Date < time).OrderByDescending(x => x.ID).Take(request.KlinesCount).ToList();
 
             List<string> kline = new List<string>();
-            var response = new List<string>();
-            
             kline.Clear();
-            response.Clear();
             int sumPlus = 0;
             int k = 0;
             int kolvo = 0;
@@ -249,12 +246,12 @@ namespace TraderApi.Controllers
                                     if (kline[k + 4].StartsWith("Green") && Data[i].Close > Data[i + 3].Close)
                                     {
                                         var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
-                                        response.Add(date);
+       
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && Data[i].Close > Data[i + 3].Open)
                                     {
                                         var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
-                                        response.Add(date);
+                                       
                                     }
                                 }
                                 else if (kline[k + 3].StartsWith("Red") && Data[i].Close > Data[i + 2].Open)
@@ -262,12 +259,12 @@ namespace TraderApi.Controllers
                                     if (kline[k + 4].StartsWith("Green") && Data[i].Close > Data[i + 3].Close)
                                     {
                                         var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
-                                        response.Add(date);
+                                        
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && Data[i].Close > Data[i + 3].Open)
                                     {
                                         var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
-                                        response.Add(date);
+                                       
                                     }
                                 }
                             }
@@ -279,12 +276,12 @@ namespace TraderApi.Controllers
                                     if (kline[k + 4].StartsWith("Green") && Data[i].Open > Data[i + 3].Close)
                                     {
                                         var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
-                                        response.Add(date);
+                                       
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && Data[i].Open > Data[i + 3].Open)
                                     {
                                         var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
-                                        response.Add(date);
+                                      
                                     }
                                 }
                                 else if (kline[k + 3].StartsWith("Red") && Data[i].Open > Data[i + 2].Open)
@@ -292,12 +289,12 @@ namespace TraderApi.Controllers
                                     if (kline[k + 4].StartsWith("Green") && Data[i].Open > Data[i + 3].Close)
                                     {
                                         var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
-                                        response.Add(date);
+                                        
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && Data[i].Open > Data[i + 3].Open)
                                     {
                                         var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
-                                        response.Add(date);
+                                       
                                     }
                                 }
                             }
@@ -476,12 +473,12 @@ namespace TraderApi.Controllers
                                     if (kline[k + 4].StartsWith("Green") && DataRed[i].Open < DataRed[i + 3].Close)
                                     {
                                         var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
-                                        response.Add(date);
+                                       
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && DataRed[i].Open < DataRed[i + 3].Close)
                                     {
                                         var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
-                                        response.Add(date);
+                                      
                                     }
                                 }
                                 else if (kline[k + 3].StartsWith("Red") && DataRed[i].Open < DataRed[i + 2].Close)
@@ -489,12 +486,12 @@ namespace TraderApi.Controllers
                                     if (kline[k + 4].StartsWith("Green") && DataRed[i].Open < DataRed[i + 3].Open)
                                     {
                                         var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
-                                        response.Add(date);
+                                       
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && DataRed[i].Open < DataRed[i + 3].Close)
                                     {
                                         var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
-                                        response.Add(date);
+                                       
                                     }
                                 }
                             }
@@ -506,12 +503,12 @@ namespace TraderApi.Controllers
                                     if (kline[k + 4].StartsWith("Green") && DataRed[i].Close < DataRed[i + 3].Open)
                                     {
                                         var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
-                                        response.Add(date);
+                                      
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && DataRed[i].Close < DataRed[i + 3].Close)
                                     {
                                         var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
-                                        response.Add(date);
+                                      
                                     }
                                 }
                                 else if (kline[k + 3].StartsWith("Red") && DataRed[i].Close < DataRed[i + 2].Close)
@@ -519,12 +516,12 @@ namespace TraderApi.Controllers
                                     if (kline[k + 4].StartsWith("Green") && DataRed[i].Close < DataRed[i + 3].Open)
                                     {
                                         var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
-                                        response.Add(date);
+                                        
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && DataRed[i].Close < DataRed[i + 3].Close)
                                     {
                                         var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
-                                        response.Add(date);
+                                       
                                     }
                                 }
                             }
@@ -554,7 +551,7 @@ namespace TraderApi.Controllers
                     break;
                 }
             }
-            return Json(new KlineResponse { Success = true, Klines = response.ToArray() });
+            return Json(new KlineResponse { Success = true, });
             //to array();
         }
     }
