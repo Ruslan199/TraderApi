@@ -84,11 +84,6 @@ namespace TraderApi.BinanceTradeManager
         {
             var data = (DataOfRealTimeRequest)obj;
             var id = data.SocketId;
-            string gg = "Signal Up";
-            var mess = (DateTime.Now + " " + gg + " " + data.Pair).ToString();
-
-            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
-            NotificationsService.NotifyToUser(socketId, mess);
 
             Console.WriteLine(data.Interval + " " + data.Pair + " " + data.Inaccuracy + " " + System.DateTime.Now);
             string Kline;
@@ -272,28 +267,31 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && Data[i].Close > Data[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Сигнал Сверху " + data.Pair;
-                                            //var socketId = NotificationsService.GetByLogin(data.Login);
-                                            //NotificationsService.SendMessageAsync(socketId, date);
+                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
 
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && Data[i].Close > Data[i + 3].Open)
                                         {
-                                            var date = Data[i].Date + " Сигнал Сверху " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                     }
                                     else if (kline[k + 3].StartsWith("Red") && Data[i].Close > Data[i + 2].Open)
                                     {
                                         if (kline[k + 4].StartsWith("Green") && Data[i].Close > Data[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Сигнал Сверху " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && Data[i].Close > Data[i + 3].Open)
                                         {
-                                            var date = Data[i].Date + " Сигнал Сверху " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                     }
                                 }
@@ -304,26 +302,30 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && Data[i].Open > Data[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Сигнал Сверху " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && Data[i].Open > Data[i + 3].Open)
                                         {
-                                            var date = Data[i].Date + " Сигнал Сверху " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                     }
                                     else if (kline[k + 3].StartsWith("Red") && Data[i].Open > Data[i + 2].Open)
                                     {
                                         if (kline[k + 4].StartsWith("Green") && Data[i].Open > Data[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Сигнал Сверху " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && Data[i].Open > Data[i + 3].Open)
                                         {
-                                            var date = Data[i].Date + " Сигнал Сверху " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                     }
                                 }
@@ -501,26 +503,30 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && DataRed[i].Open < DataRed[i + 3].Close)
                                         {
-                                            var date = DataRed[i].Date + " Сигнал Снизу " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && DataRed[i].Open < DataRed[i + 3].Close)
                                         {
-                                            var date = DataRed[i].Date + " Сигнал Снизу " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                     }
                                     else if (kline[k + 3].StartsWith("Red") && DataRed[i].Open < DataRed[i + 2].Close)
                                     {
                                         if (kline[k + 4].StartsWith("Green") && DataRed[i].Open < DataRed[i + 3].Open)
                                         {
-                                            var date = DataRed[i].Date + " Сигнал Снизу " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && DataRed[i].Open < DataRed[i + 3].Close)
                                         {
-                                            var date = DataRed[i].Date + " Сигнал Снизу " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                     }
                                 }
@@ -531,26 +537,30 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && DataRed[i].Close < DataRed[i + 3].Open)
                                         {
-                                            var date = DataRed[i].Date + " Сигнал Снизу " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && DataRed[i].Close < DataRed[i + 3].Close)
                                         {
-                                            var date = DataRed[i].Date + " Сигнал Снизу " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                     }
                                     else if (kline[k + 3].StartsWith("Red") && DataRed[i].Close < DataRed[i + 2].Close)
                                     {
                                         if (kline[k + 4].StartsWith("Green") && DataRed[i].Close < DataRed[i + 3].Open)
                                         {
-                                            var date = DataRed[i].Date + " Сигнал Снизу " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && DataRed[i].Close < DataRed[i + 3].Close)
                                         {
-                                            var date = DataRed[i].Date + " Сигнал Снизу " + data.Pair;
-                                            response.Add(date);
+                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
+                                            NotificationsService.NotifyToUser(socketId, date);
                                         }
                                     }
                                 }

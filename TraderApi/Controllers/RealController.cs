@@ -53,9 +53,6 @@ namespace TraderApi.Controllers
                 NotificationsService.addSocketUser(user.Login, request.SocketId);
             }
 
-            //var socketID = WebSocketConnectionManager.GetId(socket);  
-            //SendMessageAsync(socketID, socketID);
-
             if (request.Pair == Pairs.GVTBTC)
             {
                 timer.timer[0].Stop();
