@@ -21,10 +21,7 @@ namespace TraderApi
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-            .UseKestrel(options => 
-            {
-                options.Listen(IPAddress.Any, 5001);
-            })
-            .UseStartup<Startup>();
+            .UseStartup<Startup>()
+            .UseUrls("http://*:5001");
     }
 }

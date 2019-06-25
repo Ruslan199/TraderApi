@@ -63,7 +63,7 @@ namespace Storage
             private SettingsModel GetSettings()
             {
                 var filename = "settings.json";
-                var path = $"{System.IO.Directory.GetCurrentDirectory()}\\{filename}";
+                var path = $"{System.IO.Directory.GetCurrentDirectory()}//{filename}";
 
                 return JsonConvert.DeserializeObject<SettingsModel>(System.IO.File.ReadAllText(path));
             }
@@ -71,7 +71,7 @@ namespace Storage
             private void CreateOrUpdateSettings(SettingsModel model)
             {
                 var filename = "settings.json";
-                var path = $"{System.IO.Directory.GetCurrentDirectory()}\\{filename}";
+                var path = $"{System.IO.Directory.GetCurrentDirectory()}//{filename}";
                 System.IO.File.WriteAllText(path, JsonConvert.SerializeObject(model));
             }
         }
