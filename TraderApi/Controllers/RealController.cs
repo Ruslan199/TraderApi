@@ -98,7 +98,7 @@ namespace TraderApi.Controllers
             else if (request.Pair == Pairs.BTCUSDT)
             {
                 timer.timer[6].Stop();
-                timer.timer[6].Interval = 10000 * request.Value;
+                timer.timer[6].Interval = 60000 * request.Value;
                 timer.data[6] = request;
                 timer.timer[6].Start();
             }

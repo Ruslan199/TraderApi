@@ -97,6 +97,8 @@ namespace TraderApi.BinanceTradeManager
                 var Data = QuotationsFive.GetAll().Where(x => x.Pair == data.Pair && x.Interval == data.Interval && x.Date < time).OrderByDescending(x => x.ID).Take(7).ToList();
                 var DataRed = QuotationsFive.GetAll().Where(x => x.Pair == data.Pair && x.Interval == data.Interval && x.Date < time).OrderByDescending(x => x.ID).Take(7).ToList();
 
+                var DataGetTime = QuotationsFive.GetAll().Where(x => x.Pair == data.Pair && x.Interval == data.Interval && x.Date < time).OrderByDescending(x => x.ID).Take(7).ToList();
+                var DataRedGetTime = QuotationsFive.GetAll().Where(x => x.Pair == data.Pair && x.Interval == data.Interval && x.Date < time).OrderByDescending(x => x.ID).Take(7).ToList();
                 List<string> kline = new List<string>();
                 var response = new List<string>();
 
@@ -267,14 +269,14 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && Data[i].Close > Data[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var date = DataGetTime[7 - Data.Count].Date + " Signal Up " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
 
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && Data[i].Close > Data[i + 3].Open)
                                         {
-                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var date = DataGetTime[7 - Data.Count].Date + " Signal Up " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
@@ -283,13 +285,13 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && Data[i].Close > Data[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var date = DataGetTime[7 - Data.Count].Date + " Signal Up " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && Data[i].Close > Data[i + 3].Open)
                                         {
-                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var date = DataGetTime[7 - Data.Count].Date + " Signal Up " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
@@ -302,13 +304,13 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && Data[i].Open > Data[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var date = DataGetTime[7 - Data.Count].Date + " Signal Up " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && Data[i].Open > Data[i + 3].Open)
                                         {
-                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var date = DataGetTime[7 - Data.Count].Date + " Signal Up " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
@@ -317,13 +319,13 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && Data[i].Open > Data[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var date = DataGetTime[7 - Data.Count].Date + " Signal Up " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && Data[i].Open > Data[i + 3].Open)
                                         {
-                                            var date = Data[i].Date + " Signal Up " + data.Pair;
+                                            var date = DataGetTime[7 - Data.Count].Date + " Signal Up " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
@@ -503,13 +505,13 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && DataRed[i].Open < DataRed[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var date = DataRedGetTime[7 - DataRed.Count].Date + " Signal Low " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && DataRed[i].Open < DataRed[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var date = DataRedGetTime[7 - DataRed.Count].Date + " Signal Low " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
@@ -518,13 +520,13 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && DataRed[i].Open < DataRed[i + 3].Open)
                                         {
-                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var date = DataRedGetTime[7 - DataRed.Count].Date + " Signal Low " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && DataRed[i].Open < DataRed[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var date = DataRedGetTime[7 - DataRed.Count].Date + " Signal Low " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
@@ -537,13 +539,13 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && DataRed[i].Close < DataRed[i + 3].Open)
                                         {
-                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var date = DataRedGetTime[7 - DataRed.Count].Date + " Signal Low " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && DataRed[i].Close < DataRed[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var date = DataRedGetTime[7 - DataRed.Count].Date + " Signal Low " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
@@ -552,13 +554,13 @@ namespace TraderApi.BinanceTradeManager
                                     {
                                         if (kline[k + 4].StartsWith("Green") && DataRed[i].Close < DataRed[i + 3].Open)
                                         {
-                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var date = DataRedGetTime[7 - DataRed.Count].Date + " Signal Low " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }
                                         else if (kline[k + 4].StartsWith("Red") && DataRed[i].Close < DataRed[i + 3].Close)
                                         {
-                                            var date = Data[i].Date + " Signal Low " + data.Pair;
+                                            var date = DataRedGetTime[7 - DataRed.Count].Date + " Signal Low " + data.Pair;
                                             var socketId = NotificationsService.userID.GetValueOrDefault(data.Login);
                                             NotificationsService.NotifyToUser(socketId, date);
                                         }

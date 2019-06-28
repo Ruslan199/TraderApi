@@ -31,6 +31,7 @@ namespace TraderApi.WebSocketManager
         public void RemoveSocketUser(string user, string sockterId)
         {
             userID.Remove(user,out sockterId);
+            WebSocketConnectionManager.RemoveSocket(sockterId);
         }
 
         public void NotifyToUser(string user, string message)

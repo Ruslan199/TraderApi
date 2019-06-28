@@ -78,6 +78,9 @@ namespace TraderApi.Controllers
             var Data = QuotationsFive.GetAll().Where(x => x.Pair == request.Pair && x.Interval == request.Interval && x.Date < time).OrderByDescending(x=>x.ID).Take(request.KlinesCount).ToList();
             var DataRed = QuotationsFive.GetAll().Where(x => x.Pair == request.Pair && x.Interval == request.Interval && x.Date < time).OrderByDescending(x => x.ID).Take(request.KlinesCount).ToList();
 
+            var DataGetTime = QuotationsFive.GetAll().Where(x => x.Pair == request.Pair && x.Interval == request.Interval && x.Date < time).OrderByDescending(x => x.ID).Take(request.KlinesCount).ToList();
+            var DataRedGetTime = QuotationsFive.GetAll().Where(x => x.Pair == request.Pair && x.Interval == request.Interval && x.Date < time).OrderByDescending(x => x.ID).Take(request.KlinesCount).ToList();
+
             List<string> kline = new List<string>();
             List<string> response = new List<string>();
 
@@ -248,13 +251,13 @@ namespace TraderApi.Controllers
                                 {
                                     if (kline[k + 4].StartsWith("Green") && Data[i].Close > Data[i + 3].Close)
                                     {
-                                        var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
+                                        var date = DataGetTime[request.KlinesCount - Data.Count].Date + " Сигнал Сверху " + request.Pair;
                                         response.Add(date);
        
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && Data[i].Close > Data[i + 3].Open)
                                     {
-                                        var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
+                                        var date = DataGetTime[request.KlinesCount - Data.Count].Date + " Сигнал Сверху " + request.Pair;
                                         response.Add(date);
                                     }
                                 }
@@ -262,12 +265,12 @@ namespace TraderApi.Controllers
                                 {
                                     if (kline[k + 4].StartsWith("Green") && Data[i].Close > Data[i + 3].Close)
                                     {
-                                        var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
+                                        var date = DataGetTime[request.KlinesCount - Data.Count].Date + " Сигнал Сверху " + request.Pair;
                                         response.Add(date);
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && Data[i].Close > Data[i + 3].Open)
                                     {
-                                        var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
+                                        var date = DataGetTime[request.KlinesCount - Data.Count].Date + " Сигнал Сверху " + request.Pair;
                                         response.Add(date);
                                     }
                                 }
@@ -279,12 +282,12 @@ namespace TraderApi.Controllers
                                 {
                                     if (kline[k + 4].StartsWith("Green") && Data[i].Open > Data[i + 3].Close)
                                     {
-                                        var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
+                                        var date = DataGetTime[request.KlinesCount - Data.Count].Date + " Сигнал Сверху " + request.Pair;
                                         response.Add(date);
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && Data[i].Open > Data[i + 3].Open)
                                     {
-                                        var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
+                                        var date = DataGetTime[request.KlinesCount - Data.Count].Date + " Сигнал Сверху " + request.Pair;
                                         response.Add(date);
                                     }
                                 }
@@ -292,12 +295,12 @@ namespace TraderApi.Controllers
                                 {
                                     if (kline[k + 4].StartsWith("Green") && Data[i].Open > Data[i + 3].Close)
                                     {
-                                        var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
+                                        var date = DataGetTime[request.KlinesCount - Data.Count].Date + " Сигнал Сверху " + request.Pair;
                                         response.Add(date);
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && Data[i].Open > Data[i + 3].Open)
                                     {
-                                        var date = Data[i].Date + " Сигнал Сверху " + request.Pair;
+                                        var date = DataGetTime[request.KlinesCount - Data.Count].Date + " Сигнал Сверху " + request.Pair;
                                         response.Add(date);
                                     }
                                 }
@@ -476,12 +479,12 @@ namespace TraderApi.Controllers
                                 {
                                     if (kline[k + 4].StartsWith("Green") && DataRed[i].Open < DataRed[i + 3].Close)
                                     {
-                                        var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
+                                        var date = DataRedGetTime[request.KlinesCount - DataRed.Count].Date + " Сигнал Снизу " + request.Pair;
                                         response.Add(date);
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && DataRed[i].Open < DataRed[i + 3].Close)
                                     {
-                                        var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
+                                        var date = DataRedGetTime[request.KlinesCount - DataRed.Count].Date + " Сигнал Снизу " + request.Pair;
                                         response.Add(date);
                                     }
                                 }
@@ -489,12 +492,12 @@ namespace TraderApi.Controllers
                                 {
                                     if (kline[k + 4].StartsWith("Green") && DataRed[i].Open < DataRed[i + 3].Open)
                                     {
-                                        var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
+                                        var date = DataRedGetTime[request.KlinesCount - DataRed.Count].Date + " Сигнал Снизу " + request.Pair;
                                         response.Add(date);
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && DataRed[i].Open < DataRed[i + 3].Close)
                                     {
-                                        var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
+                                        var date = DataRedGetTime[request.KlinesCount - DataRed.Count].Date + " Сигнал Снизу " + request.Pair;
                                         response.Add(date);
                                     }
                                 }
@@ -506,12 +509,12 @@ namespace TraderApi.Controllers
                                 {
                                     if (kline[k + 4].StartsWith("Green") && DataRed[i].Close < DataRed[i + 3].Open)
                                     {
-                                        var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
+                                        var date = DataRedGetTime[request.KlinesCount - DataRed.Count].Date + " Сигнал Снизу " + request.Pair;
                                         response.Add(date);
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && DataRed[i].Close < DataRed[i + 3].Close)
                                     {
-                                        var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
+                                        var date = DataRedGetTime[request.KlinesCount - DataRed.Count].Date + " Сигнал Снизу " + request.Pair;
                                         response.Add(date);
                                     }
                                 }
@@ -519,12 +522,12 @@ namespace TraderApi.Controllers
                                 {
                                     if (kline[k + 4].StartsWith("Green") && DataRed[i].Close < DataRed[i + 3].Open)
                                     {
-                                        var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
+                                        var date = DataRedGetTime[request.KlinesCount - DataRed.Count].Date + " Сигнал Снизу " + request.Pair;
                                         response.Add(date);
                                     }
                                     else if (kline[k + 4].StartsWith("Red") && DataRed[i].Close < DataRed[i + 3].Close)
                                     {
-                                        var date = DataRed[i].Date + " Сигнал Снизу " + request.Pair;
+                                        var date = DataRedGetTime[request.KlinesCount - DataRed.Count].Date + " Сигнал Снизу " + request.Pair;
                                         response.Add(date);
                                     }
                                 }
