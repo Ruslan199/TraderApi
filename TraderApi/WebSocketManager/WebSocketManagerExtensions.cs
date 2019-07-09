@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using TraderApi.BinanceTradeManager.DictionaryForUsers;
 using TraderApi.Interface;
 
 namespace TraderApi.WebSocketManager
@@ -15,10 +16,27 @@ namespace TraderApi.WebSocketManager
         public static IServiceCollection AddWebSocketManager(this IServiceCollection services)
         {
             services.AddTransient<WebSocketConnectionManager>();
+            //services.AddTransient<AddUserService>();
 
             foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
             {
                 if (type.GetTypeInfo().BaseType == typeof(WebSocketHandler))
+                {
+                    services.AddSingleton(type);
+                }
+            }
+
+            return services;
+        }
+
+        public static IServiceCollection AddWebSocketManagerUser(this IServiceCollection services)
+        {
+            services.AddTransient<AddUserService>();
+            //services.AddTransient<AddUserService>();
+
+            foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
+            {
+                if (type.GetTypeInfo().BaseType == typeof(AddUserService))
                 {
                     services.AddSingleton(type);
                 }

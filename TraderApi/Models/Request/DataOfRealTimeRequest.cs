@@ -17,5 +17,6 @@ namespace TraderApi.Models.Request
         public int Value { get; set; }
         public string SocketId { get; set; }
         public string Login { get; set; }
+        public int UserId { get; set; }
     }
 }

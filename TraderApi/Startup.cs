@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using NHibernate;
 using Storage;
 using TraderApi.BinanceTradeManager;
+using TraderApi.BinanceTradeManager.DictionaryForUsers;
 using TraderApi.Interface;
 using TraderApi.WebSocketManager;
 
@@ -34,8 +35,11 @@ namespace TraderApi
             services.AddCors();
             services.AddSingleton<ITimerService, TimerService>();
             // services.AddScoped<BinanceTradeManager.BinanceTradeManager>();
+            //services.AddTransient<AddUserService>();
+            services.AddSingleton<IAddUserService, AddUserService>();
             services.AddHostedService<TimedHostedService>();
             services.AddWebSocketManager();
+            //services.AddWebSocketManagerUser();
             
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -63,10 +67,7 @@ namespace TraderApi
                         };
                     });
 
-            // services.AddScoped<TimerRealAlgoritm>();
-            // services.AddScoped<ITimerService, TimerService>();
-            //services.AddScoped<TimerService>();
-            // services.AddScoped<IQuotationFiveService, QuotationFiveService>();
+       
 
             //services.AddScoped<BinanceTradeManager.BinanceTradeManagerOne>();
         }

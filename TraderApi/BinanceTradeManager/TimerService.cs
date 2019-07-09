@@ -25,59 +25,6 @@ namespace TraderApi.BinanceTradeManager
         {
             Services = services;
             NotificationsService = notificationsService;
-            data = new List<DataOfRealTimeRequest>
-            {
-                new DataOfRealTimeRequest(),
-                new DataOfRealTimeRequest(),
-                new DataOfRealTimeRequest(),
-                new DataOfRealTimeRequest(),
-                new DataOfRealTimeRequest(),
-                new DataOfRealTimeRequest(),
-                new DataOfRealTimeRequest()
-            };
-            timer = new List<BinancePair>
-            {
-                 new BinancePair(Pairs.GVTBTC),
-                 new BinancePair(Pairs.IOTXBTC),
-                 new BinancePair(Pairs.STRATBTC),
-                 new BinancePair(Pairs.XRPBTC),
-                 new BinancePair(Pairs.WAVESBTC),
-                 new BinancePair(Pairs.CMTBTC),
-                 new BinancePair(Pairs.BTCUSDT)
-            };
-            timer.ForEach(x =>
-            {
-                if (x.BinancePairr == Pairs.GVTBTC)
-                {
-                    x.Elapsed += (obj, e) => Count(data[0], e);
-                }
-                else if (x.BinancePairr == Pairs.IOTXBTC)
-                {
-                    x.Elapsed += (obj, e) => Count(data[1], e);
-                }
-                else if (x.BinancePairr == Pairs.STRATBTC)
-                {
-                    x.Elapsed += (obj, e) => Count(data[2], e);
-                }
-                else if (x.BinancePairr == Pairs.XRPBTC)
-                {
-                    //data.Clear();
-                    x.Elapsed += (obj, e) => Count(data[3], e);
-                }
-                else if (x.BinancePairr == Pairs.WAVESBTC)
-                {
-                    x.Elapsed += (obj, e) => Count(data[4], e);
-                }
-                else if (x.BinancePairr == Pairs.CMTBTC)
-                {
-                    x.Elapsed += (obj, e) => Count(data[5], e);
-                }
-                else if (x.BinancePairr == Pairs.BTCUSDT)
-                {
-                    x.Elapsed += (obj, e) => Count(data[6], e);
-                }
-            });
-
         }
 
         public void Count(object obj, System.Timers.ElapsedEventArgs e)
@@ -86,6 +33,8 @@ namespace TraderApi.BinanceTradeManager
             var id = data.SocketId;
 
             Console.WriteLine(data.Interval + " " + data.Pair + " " + data.Inaccuracy + " " + System.DateTime.Now);
+
+            
             string Kline;
             var time = new DateTime(data.Time.Year, data.Time.Month, (data.Time.Day + 2));
             using (var scope = Services.CreateScope())
