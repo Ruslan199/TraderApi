@@ -10,7 +10,5 @@ namespace TraderApi.Interface
     {
         void AddUser(DataOfRealTimeRequest data);
         void DeleteUser(int UserId,string UserName);
-       // List<CurrentUser> users { get; set; }
-       // CurrentUser user { get; set; }
     }
 }

@@ -16,7 +16,6 @@ namespace TraderApi.BinanceTradeManager
 {
     public class TimerService : ITimerService
     {
-        public List<BinancePair> timer { get; set; }
         public List<DataOfRealTimeRequest> data { get; set; }
         public IServiceProvider Services { get; }
         private NotificationsMessageHandler NotificationsService { get; set; }
@@ -32,7 +31,7 @@ namespace TraderApi.BinanceTradeManager
             var data = (DataOfRealTimeRequest)obj;
             var id = data.SocketId;
 
-            Console.WriteLine(data.Interval + " " + data.Pair + " " + data.Inaccuracy + " " + System.DateTime.Now);
+            Console.WriteLine(data.Interval + " " + data.Pair + " " + data.Inaccuracy + " " + System.DateTime.Now + " " + data.Login);
 
             
             string Kline;

@@ -29,22 +29,6 @@ namespace TraderApi.WebSocketManager
             return services;
         }
 
-        public static IServiceCollection AddWebSocketManagerUser(this IServiceCollection services)
-        {
-            services.AddTransient<AddUserService>();
-            //services.AddTransient<AddUserService>();
-
-            foreach (var type in Assembly.GetEntryAssembly().ExportedTypes)
-            {
-                if (type.GetTypeInfo().BaseType == typeof(AddUserService))
-                {
-                    services.AddSingleton(type);
-                }
-            }
-
-            return services;
-        }
-
         public static IApplicationBuilder MapWebSocketManager(this IApplicationBuilder app,
                                                               PathString path,
                                                               WebSocketHandler handler)

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using BusinessLogic.Interfaces;
 using TraderApi.Models.Request;
-using Domain.Enum;
 using TraderApi.ViewModels.Response;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using TraderApi.Models.Response;
 using TraderApi.WebSocketManager;
 using Microsoft.AspNetCore.Authorization;
+using CryptoExchange.Net.Requests;
 
 namespace TraderApi.Controllers
 {
@@ -55,15 +55,33 @@ namespace TraderApi.Controllers
         }
         [Authorize]
         [HttpPost("exit")]
-        public async Task<IActionResult> Exit([FromBody] DataOfRealTimeRequest request)
+        public async Task<IActionResult> Exit([FromBody] ExitUserRequest request)
         {
             var user = UserService.GetAll().FirstOrDefault(x => x.Login == User.Identity.Name);
             var socketId = NotificationsService.userID.GetValueOrDefault(request.Login);
+
+            if (socketId == null)
+            {
+                return Json(new KlineResponse { Success = false, Message = "К сожалению пользователь вышел" });
+            }
 
             NotificationsService.RemoveSocketUser(user.Login, socketId);
 
             return Json(new KlineResponse { Success = true });
         }
+        [HttpPost("CheckUser")]
+        public async Task<IActionResult> CheckUser([FromBody] CheckCurrentUserRequest request)
+        {
+            var currenUser = NotificationsService.userID.FirstOrDefault(x=>x.Value == request.SocketId).Key;
+
+            if (currenUser == null)
+            {
+                return Json(new KlineResponse { Success = false, Message = "Такого пользователя нет в сети" });
+            }
+
+            return Json(new KlineResponse { Success = true });
+        }
+
 
         [HttpPost("authorization")]
         public async Task<IActionResult> Authorization([FromBody] AuthRequest request)
@@ -71,11 +89,15 @@ namespace TraderApi.Controllers
             var user = UserService.GetAll().Where(x => x.Password == request.Password && x.Login == request.Login).SingleOrDefault();
             if (user == null)
             {
-                return Json(new KlineResponse { Success = false, Message = "Unknow Login or Password" });
+                return Json(new KlineResponse { Success = false, Message = "Неправильный логин или пароль" });
+            }
+            if (NotificationsService.userID.ContainsKey(request.Login))
+            {
+                return Json(new KlineResponse { Success = false, Message = "Пользователь уже в сети" });
             }
 
             var identity = GetIdentity(request.Login, request.Password);
-
+            NotificationsService.addSocketUser(user.Login, request.SocketId);
             var now = DateTime.UtcNow;
             var expires = now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME));
 

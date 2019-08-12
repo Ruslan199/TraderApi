@@ -11,7 +11,6 @@ namespace TraderApi.Interface
 {
     public interface ITimerService
     {
-        List<BinancePair> timer { get; set; }
         List<DataOfRealTimeRequest> data { get; set; }
         void Count(object obj, System.Timers.ElapsedEventArgs e);
     }

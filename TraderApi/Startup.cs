@@ -31,16 +31,15 @@ namespace TraderApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddBuisnessServices();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddNHibernate("Server=localhost;Port=3306;Uid=root;Pwd=qwerty27;Database=example;");
             services.AddCors();
             services.AddSingleton<ITimerService, TimerService>();
-            // services.AddScoped<BinanceTradeManager.BinanceTradeManager>();
-            //services.AddTransient<AddUserService>();
             services.AddSingleton<IAddUserService, AddUserService>();
             services.AddHostedService<TimedHostedService>();
             services.AddWebSocketManager();
-            //services.AddWebSocketManagerUser();
-            
+           
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
@@ -91,7 +90,8 @@ namespace TraderApi
             app.UseAuthentication();
             app.UseMvc();
             app.UseWebSockets();
-            
+            app.UseSession();
+
             var notifMessageHandler = serviceProvider.GetService<NotificationsMessageHandler>();
             app.MapWebSocketManager("/notifications", notifMessageHandler);
         }

@@ -12,6 +12,10 @@ namespace Domain.Enum
         XRPBTC = 3,
         WAVESBTC = 4,
         CMTBTC = 5,
-        BTCUSDT = 6
+        BTCUSDT = 6,
+        EOSBTC = 7,
+        TRXBTC = 8,
+        ADABTC = 9
+
     }
 }

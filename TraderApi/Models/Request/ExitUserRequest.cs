@@ -6,14 +6,11 @@ using System.Threading.Tasks;
 
 namespace TraderApi.Models.Request
 {
-    public class AuthRequest
+    public class ExitUserRequest
     {
         [Required]
         public string Login { get; set; }
         [Required]
-        public string Password { get; set; }
-        [Required]
         public string SocketId { get; set; }
-
     }
 }

@@ -34,7 +34,7 @@ namespace TraderApi.BinanceTradeManager
         public IServiceProvider Services { get; }
     
 
-        private static Example[] ex = new Example[7]
+        private static Example[] ex = new Example[10]
         {
             new Example { PairName = "GVTBTC", Pairs = Pairs.GVTBTC },
             new Example { PairName = "IOTXBTC", Pairs = Pairs.IOTXBTC },
@@ -42,7 +42,10 @@ namespace TraderApi.BinanceTradeManager
             new Example { PairName = "XRPBTC", Pairs = Pairs.XRPBTC },
             new Example { PairName = "WAVESBTC", Pairs = Pairs.WAVESBTC },
             new Example { PairName = "CMTBTC", Pairs = Pairs.CMTBTC },
-            new Example { PairName = "BTCUSDT", Pairs = Pairs.BTCUSDT }
+            new Example { PairName = "BTCUSDT", Pairs = Pairs.BTCUSDT },
+            new Example { PairName = "EOSBTC", Pairs = Pairs.EOSBTC },
+            new Example { PairName = "TRXBTC", Pairs = Pairs.TRXBTC },
+            new Example { PairName = "ADABTC", Pairs = Pairs.ADABTC }
         };
 
         public TimedHostedService(ILogger<TimedHostedService> logger, IServiceProvider services)
@@ -54,9 +57,9 @@ namespace TraderApi.BinanceTradeManager
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("Timed Background Service is starting.");
-           // myTimer.Elapsed += new System.Timers.ElapsedEventHandler(Work);
-            //myTimer.Interval = 1000; // 1000 ms is one second
-            //myTimer.Start();
+            myTimer.Elapsed += new System.Timers.ElapsedEventHandler(Work);
+            myTimer.Interval = 1000; // 1000 ms is one second
+            myTimer.Start();
             
             return Task.CompletedTask;
 
@@ -247,6 +250,11 @@ namespace TraderApi.BinanceTradeManager
             _timerFour?.Dispose();
             _timerFive?.Dispose();
         }
+    }
+    public class Example
+    {
+        public string PairName { get; set; }
+        public Pairs Pairs { get; set; }
     }
 } 
 

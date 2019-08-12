@@ -44,6 +44,7 @@ namespace TraderApi.WebSocketManager
         {
             WebSocketConnectionManager.AddSocket(socket);
             var socketID = WebSocketConnectionManager.GetId(socket);  
+
             SendMessageAsync(socketID, socketID);
             return base.OnConnected(socket);
         }

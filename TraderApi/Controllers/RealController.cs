@@ -21,8 +21,6 @@ namespace TraderApi.Controllers
         private IAddUserService AddUserService { get; set; }
         private NotificationsMessageHandler NotificationsService { get; set; }
 
-
-
         public RealController([FromServices]
             IQuotationFiveService quotations,
             ITimerService Timer,
@@ -45,26 +43,15 @@ namespace TraderApi.Controllers
         {
             var user = UserService.GetAll().FirstOrDefault(x => x.Login == User.Identity.Name);
 
-            if (!NotificationsService.userID.ContainsValue(request.SocketId))
-            {
-                NotificationsService.addSocketUser(user.Login, request.SocketId);
-            }
-
-            AddUserService.AddUser(request);
-            
+            AddUserService.AddUser(request);     
             return Json(new KlineResponse { Success = true, });
-
         }
         [Authorize]
         [HttpPost("DeleteUserTimer")]
         public async Task<IActionResult> DeleteUserTimer([FromBody] DeleteTimerUser request)
-        {
-     
+        { 
             AddUserService.DeleteUser(request.UserId,request.UserName);
-
             return Json(new KlineResponse { Success = true, });
-
         }
-
     }
 }
